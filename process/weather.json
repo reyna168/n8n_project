@@ -1,0 +1,200 @@
+{
+  "name": "weather",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "62a55d8a-32b9-4ae4-8cd0-6a543e923024",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://api.weatherapi.com/v1/current.json",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "c9bf3a275a9641a4ad322210251106"
+            },
+            {
+              "name": "q",
+              "value": "Taipei"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "3ac71762-92fe-4c87-8279-38069a32422c",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3e32f9e4-8ee8-4316-ac62-4a55127b2441",
+              "name": "City",
+              "value": "={{ $json.location.name }}",
+              "type": "string"
+            },
+            {
+              "id": "adfbbe8c-31b1-4645-b4c2-e86f1eb6df0a",
+              "name": "Weather",
+              "value": "={{ $json.current.condition.text }}",
+              "type": "string"
+            },
+            {
+              "id": "393ac17b-847e-45cf-bb90-941fb76b7049",
+              "name": "Temperature",
+              "value": "={{ $json.current.temp_c }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        440,
+        0
+      ],
+      "id": "5582df00-5c6d-44ec-a104-a38643f66cd3",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1jFJ8PYnZDGU5GvywQf1F4tAFvnizKDZxjcpqXwo93vg/edit?gid=1145411579#gid=1145411579",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1jFJ8PYnZDGU5GvywQf1F4tAFvnizKDZxjcpqXwo93vg/edit?gid=1145411579#gid=1145411579",
+          "mode": "url"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "City": "={{ $json.City }}",
+            "Weather": "={{ $json.Weather }}",
+            "Temperature": "={{ $json.Temperature }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Weather",
+              "displayName": "Weather",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Temperature",
+              "displayName": "Temperature",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        660,
+        0
+      ],
+      "id": "088c3a10-1f4c-49f4-8773-c223c0631f7f",
+      "name": "Google Sheets",
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4b74jGEKM33sOYRc",
+          "name": "Google Sheets account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8c230c02-549e-4037-b45c-d2110d8359e1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a5f7e18c420f6546e188eb6afd19a4b5c69e78c2337eeb5e752bf3103640688b"
+  },
+  "id": "Ij0oVs4lAiwqa6Io",
+  "tags": []
+}
