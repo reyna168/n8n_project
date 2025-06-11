@@ -1,0 +1,14 @@
+進階error send mail設定範本
+
+🚨n8n錯誤警報： {{ $json.workflow.name }}
+
+Hi，<br><br>
+
+n8n偵測到工作流執行失敗，以下是錯誤詳情：<br><br>
+
+- 工作流名稱： {{ $json.workflow.name }}<br>
+- 工作流ID：{{ $json.workflow.id }}<br>
+- 發生錯誤的節點名稱：{{ $json.execution.lastNodeExecuted }}<br>
+- 錯誤訊息：{{ $json.execution.error.message }}<br><br>
+
+請盡快檢查問題，謝謝！

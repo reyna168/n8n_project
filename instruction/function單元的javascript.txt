@@ -1,0 +1,72 @@
+1️⃣ 新增或移除欄位
+✅ 操作說明
+使用 Function 節點，您可以為每筆資料新增新的欄位，或移除不需要的欄位。​
+
+📘 範例：新增 fullName 欄位，並移除 firstName 與 lastName
+輸入資料：
+return[
+  { "json": { "firstName": "John", "lastName": "Doe" } },
+  { "json": { "firstName": "Jane", "lastName": "Smith" } }
+]
+Function 節點程式碼：
+
+return items.map(item => {
+  const { firstName, lastName } = item.json;
+  return {
+    json: {
+      fullName: `${firstName} ${lastName}`
+    }
+  };
+});
+
+
+2️⃣ 進行數值計算或格式轉換
+✅ 操作說明
+您可以在 Function 節點中進行數值計算，並將結果格式化為特定的數字格式。​
+
+📘 範例：計算折扣後的價格，並格式化為貨幣格式
+輸入資料：
+
+return[
+  { "json": { "price": 100, "discount": 0.2 } },
+  { "json": { "price": 250, "discount": 0.15 } }
+]
+
+Function 節點程式碼：
+
+return items.map(item => {
+  const { price, discount } = item.json;
+  const finalPrice = price * (1 - discount);
+  return {
+    json: {
+      ...item.json,
+      finalPrice: finalPrice.toFixed(2), // 保留兩位小數
+      finalPriceFormatted: finalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) // 格式化為貨幣
+    }
+  };
+});
+
+💡 補充說明
+toFixed(2) 用於保留兩位小數。
+
+
+3️⃣ 根據條件篩選資料
+✅ 操作說明
+使用 Function 節點，您可以根據特定條件篩選資料，僅保留符合條件的項目。​
+
+📘 範例：篩選出年齡大於等於 18 歲的使用者
+
+return[
+  { "json": { "name": "Alice", "age": 17 } },
+  { "json": { "name": "Bob", "age": 22 } },
+  { "json": { "name": "Charlie", "age": 19 } }
+]
+
+Function 節點程式碼：
+
+return items.filter(item => item.json.age >= 18);
+
+
+💡 補充說明
+filter() 方法可用於根據條件篩選陣列中的項目。
+

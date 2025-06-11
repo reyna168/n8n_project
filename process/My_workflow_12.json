@@ -1,0 +1,92 @@
+{
+  "name": "My workflow 12",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "/webhook/fullname",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f1e90744-e0e8-4e05-b899-b086df5b0e45",
+      "name": "Webhook",
+      "webhookId": "1ff335ce-2819-4b7a-aae5-3e4a071e35eb"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6b678223-f63e-4af3-93aa-4b3ebc2ae94f",
+              "name": "fullname",
+              "value": "={{ $json.query.fastname }}{{ $json.query.lastname }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        0
+      ],
+      "id": "8fc7b9a9-a650-46e6-8a56-29a4a2d82f5b",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.3,
+      "position": [
+        440,
+        0
+      ],
+      "id": "b5b2face-57ad-4c7b-af11-5c3a2059c41e",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "af1518aa-9e56-44c6-a550-6fba49442bc3",
+  "meta": {
+    "instanceId": "a5f7e18c420f6546e188eb6afd19a4b5c69e78c2337eeb5e752bf3103640688b"
+  },
+  "id": "T1FnPR4WExB9dARQ",
+  "tags": []
+}

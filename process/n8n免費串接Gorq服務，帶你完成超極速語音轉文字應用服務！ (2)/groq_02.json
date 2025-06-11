@@ -1,0 +1,203 @@
+{
+  "name": "My workflow 30",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "allowFileUploads": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -440,
+        -140
+      ],
+      "id": "4ae34d31-c2d9-4056-ab59-52acb0e2c617",
+      "name": "When chat message received",
+      "webhookId": "57969f50-f0c5-4ae1-b1c5-97ae8f28311a"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d9cfc780-4e41-4ace-b4ca-de59482a8a69",
+              "name": "files",
+              "value": "={{ $json.files }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -220,
+        -140
+      ],
+      "id": "bcd6c0e0-6128-4d5f-98f4-6b09649c8ca4",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/audio/transcriptions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "bearer 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"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data0"
+            },
+            {
+              "name": "model",
+              "value": "whisper-large-v3"
+            },
+            {
+              "name": "prompt",
+              "value": "用這個前置詞才有機會轉成繁體中文"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        -140
+      ],
+      "id": "192f6f10-740f-4397-820c-e732d38696ec",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Edit Fields').item.json.chatInput }}{{ $json.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        220,
+        -140
+      ],
+      "id": "27515d31-c52d-4225-9266-0eda9693e1ac",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "qwen-qwq-32b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        160,
+        60
+      ],
+      "id": "820e0451-164f-44af-827c-8a3907857ea0",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "peMDLkpeF9UMBzz7",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        460,
+        60
+      ],
+      "id": "e0a54e42-171f-47b0-9de5-6446878beadc",
+      "name": "Think"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "846cf203-b77f-4059-a40e-a53c4e8c4c67",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ff933d7646f4ba467d230aff2ba55c4943803047ace9c7da46a4faec12cfd231"
+  },
+  "id": "gib1pkGPRG3u10ev",
+  "tags": []
+}

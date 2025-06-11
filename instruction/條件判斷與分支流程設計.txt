@@ -1,0 +1,23 @@
+Step 1：建立使用者資料
+新增 Function 節點，輸入以下程式碼：​
+
+return [ { json: { name: "Alice", age: 17 } }, { json: { name: "Bob", age: 22 } }, { json: { name: "Charlie", age: 19 } } ]; 
+
+Step 2：判斷是否為成年人
+新增 If 節點，設定條件：​
+資料類型：​Number
+比較運算：​is greater than or equal to
+值：18​
+
+Step 3：分別處理成年人與未成年人
+True 分支（成年人）：​新增 Set 節點，新增欄位 status，值為 成人。
+False 分支（未成年人）：​新增 Set 節點，新增欄位 status，值為 未成年。​
+
+Step 4：合併資料
+新增 Merge 節點，設定合併模式為 Append，將兩個 Set 節點的輸出連接至 Merge 節點。​
+
+Step 5：後續處理
+您可以在 Merge 節點後新增其他節點，進行統一的後續處理，例如將資料寫入資料庫、發送通知等。
+
+最後可以帶到if那邊，二個set的參數設定要開啟Include Other Input Fields
+這樣才不會只有status而沒有前面的基本資料如name及age

@@ -1,0 +1,13 @@
+# Loop over input items and convert each field and value to uppercase, and add a new field
+new_items = []
+
+for item in _input.all():
+    # 將原始 json 的欄位名稱和值都轉成大寫
+    upper_json = {k.upper(): str(v).upper() for k, v in item.json.items()}
+   
+    # 用新的 JSON 建立新項目
+    new_items.append({
+        "json": upper_json
+    })
+
+return new_items

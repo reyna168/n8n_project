@@ -1,0 +1,183 @@
+{{ $json["name"] }}：取得當前項目的 name 欄位值。
+{{ $("PreviousNode").item.json["email"] }}：取得名為 PreviousNode 節點的 email 欄位值。
+{{ $now }}：取得當前的日期與時間。
+
+要提取 email 欄位的值，可以在後續節點中使用以下 Expression：
+
+
+{{ $("HTTP Request").item.json["data"]["user"]["email"] }}
+
+
+使用 Set 節點整理資料：在提取資料後，使用 Set 節點來重新命名或整理欄位，有助於提高流程的可讀性。
+使用 Function 節點處理複雜邏輯：當需要進行條件判斷或資料轉換時，Function 節點提供更大的彈性。
+避免直接修改原始資料：為了保留原始資料，建議在處理資料時創建新的欄位，而不是直接修改原始欄位。
+使用 Item Lists 節點處理陣列資料：當需要對陣列資料進行操作時，Item Lists 節點提供了許多方便的功能，如合併、拆分、排序等。
+
+
+set節點使用
+
+{{ $("HTTP Request").item.json["location"]["name"] }}
+
+{{ $("HTTP Request").item.json["current"]["last_updated"] }}
+
+datetime_now
+{{ $now }}
+
+
+
+
+code節點使用：
+
+return [
+  {
+    json: {
+      id: 1,
+      firstName: "Alice",
+      lastName: "Wang",
+      email: "alice.wang@example.com",
+      phone: "0912345678",
+      city: "Taipei"
+    }
+  },
+  {
+    json: {
+      id: 2,
+      firstName: "Bob",
+      lastName: "Chen",
+      email: "bob.chen@example.com",
+      phone: "0922333444",
+      city: "Taichung"
+    }
+  },
+  {
+    json: {
+      id: 3,
+      firstName: "Charlie",
+      lastName: "Lin",
+      email: "charlie.lin@example.com",
+      phone: "0933222111",
+      city: "Kaohsiung"
+    }
+  },
+  {
+    json: {
+      id: 4,
+      firstName: "Diana",
+      lastName: "Liu",
+      email: "diana.liu@example.com",
+      phone: "0944556677",
+      city: "Tainan"
+    }
+  },
+  {
+    json: {
+      id: 5,
+      firstName: "Ethan",
+      lastName: "Huang",
+      email: "ethan.huang@example.com",
+      phone: "0955667788",
+      city: "Hsinchu"
+    }
+  },
+  {
+    json: {
+      id: 6,
+      firstName: "Fiona",
+      lastName: "Tsai",
+      email: "fiona.tsai@example.com",
+      phone: "0966778899",
+      city: "Keelung"
+    }
+  },
+  {
+    json: {
+      id: 7,
+      firstName: "George",
+      lastName: "Wu",
+      email: "george.wu@example.com",
+      phone: "0977889900",
+      city: "Chiayi"
+    }
+  },
+  {
+    json: {
+      id: 8,
+      firstName: "Helen",
+      lastName: "Chang",
+      email: "helen.chang@example.com",
+      phone: "0988990011",
+      city: "Hualien"
+    }
+  },
+  {
+    json: {
+      id: 9,
+      firstName: "Ian",
+      lastName: "Lee",
+      email: "ian.lee@example.com",
+      phone: "0999001122",
+      city: "Taitung"
+    }
+  },
+  {
+    json: {
+      id: 10,
+      firstName: "Jenny",
+      lastName: "Kuo",
+      email: "jenny.kuo@example.com",
+      phone: "0900112233",
+      city: "Yilan"
+    }
+  }
+];
+
+
+📌 範例：使用 Function 節點遍歷資料陣列並新增 fullName 欄位
+新增 Function 節點：在您的工作流程中新增一個 Function 節點。
+
+
+輸入以下程式碼：在 Function 節點的程式碼區塊中輸入以下 JavaScript 程式碼：
+
+return items.map(item => {
+  const { firstName, lastName } = item.json;
+  return {
+    json: {
+      ...item.json,
+      fullName: `${firstName} ${lastName}`
+    }
+  };
+});
+
+
+
+return items.map(item => {
+  const { firstName, lastName, email, phone } = item.json;
+  const errors = [];
+
+  // 檢查姓名是否填寫
+  if (!firstName || !lastName) {
+    errors.push('姓名為必填項目');
+  }
+
+  // 檢查 email 格式
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    errors.push('Email 格式不正確');
+  }
+
+  // 檢查電話號碼長度
+  if (!phone || phone.length < 8) {
+    errors.push('電話號碼長度不足');
+  }
+
+  return {
+    json: {
+      ...item.json,
+      isValid: errors.length === 0,
+      errors
+    }
+  };
+});
+
+
+

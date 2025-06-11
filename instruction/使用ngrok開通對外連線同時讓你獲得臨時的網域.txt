@@ -1,0 +1,13 @@
+一、下載https://ngrok.com/downloads/windows?tab=download
+二、登入官網取得token，並在本地註冊。
+ngrok config add-authtoken 2Lb9OD5vVQdKsfR7LrwdCm6KAJq_5KeqbdftaVgQnuyX23UAG
+
+三、執行ngrok，並將端口指到5678
+ngrok http http://localhost:5678
+
+
+四、接著我們要重啟n8n的docker
+執行的指令不一樣了，我直接列出來，
+大概要改的地方就是把前面的網址，換成你在上面步驟得到的臨時的網域名稱，記得要替換成你的喔。
+
+docker run -it --rm   --name n8n   -p 5678:5678   -v n8n_data:/home/node/.n8n   -e WEBHOOK_URL=https://6553-39-15-64-121.ngrok-free.app   -e N8N_HOST=6553-39-15-64-121.ngrok-free.app   -e N8N_PORT=5678   -e N8N_PROTOCOL=https   docker.n8n.io/n8nio/n8n

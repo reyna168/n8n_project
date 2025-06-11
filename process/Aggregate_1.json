@@ -1,0 +1,107 @@
+{
+  "name": "Aggregate_1",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        100
+      ],
+      "id": "1fe492cb-ff08-49c6-9ef4-50f66499954d",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "include": "allFieldsExcept",
+        "fieldsToExclude": "email",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        160,
+        120
+      ],
+      "id": "d60cd5ce-a286-47fe-83d8-b8066a00e22c",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      id: 1,\n      firstName: \"\",\n      lastName: \"Wang\",\n      email: \"alice.wang@example.com\",\n      phone: \"0912345678\",\n      city: \"Taipei\"\n    }\n  },\n  {\n    json: {\n      id: 2,\n      firstName: \"Bob\",\n      lastName: \"Chen\",\n      email: \"bob.chen@example.com\",\n      phone: \"0922\",\n      city: \"Taichung\"\n    }\n  },\n  {\n    json: {\n      id: 3,\n      firstName: \"Charlie\",\n      lastName: \"Lin\",\n      email: \"charlie.lin@example.com\",\n      phone: \"0933222111\",\n      city: \"Kaohsiung\"\n    }\n  },\n  {\n    json: {\n      id: 4,\n      firstName: \"Diana\",\n      lastName: \"Liu\",\n      email: \"diana.liu@example.com\",\n      phone: \"0944556677\",\n      city: \"Tainan\"\n    }\n  },\n  {\n    json: {\n      id: 5,\n      firstName: \"Ethan\",\n      lastName: \"Huang\",\n      email: \"ethan.huang@example.com\",\n      phone: \"0955667788\",\n      city: \"Hsinchu\"\n    }\n  },\n  {\n    json: {\n      id: 6,\n      firstName: \"Fiona\",\n      lastName: \"Tsai\",\n      email: \"fiona.tsai@example.com\",\n      phone: \"0966778899\",\n      city: \"Keelung\"\n    }\n  },\n  {\n    json: {\n      id: 7,\n      firstName: \"George\",\n      lastName: \"Wu\",\n      email: \"george.wu@example.com\",\n      phone: \"0977889900\",\n      city: \"Chiayi\"\n    }\n  },\n  {\n    json: {\n      id: 8,\n      firstName: \"Helen\",\n      lastName: \"Chang\",\n      email: \"helen.chang@example.com\",\n      phone: \"0988990011\",\n      city: \"Hualien\"\n    }\n  },\n  {\n    json: {\n      id: 9,\n      firstName: \"Ian\",\n      lastName: \"Lee\",\n      email: \"ian.lee@example.com\",\n      phone: \"0999001122\",\n      city: \"Taitung\"\n    }\n  },\n  {\n    json: {\n      id: 10,\n      firstName: \"Jenny\",\n      lastName: \"Kuo\",\n      email: \"jenny.kuo@example.com\",\n      phone: \"0900112233\",\n      city: \"Yilan\"\n    }\n  }\n];\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -20,
+        120
+      ],
+      "id": "66089aaa-db2f-4230-803b-1d0097e3b853",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "include": "selectedOtherFields",
+        "fieldsToInclude": "data[0].city",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        380,
+        120
+      ],
+      "id": "9e704e13-efe4-43b1-bbe3-1579a74d0879",
+      "name": "Split Out"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "09713caf-553b-4eef-921c-e506a76882ef",
+  "meta": {
+    "instanceId": "a5f7e18c420f6546e188eb6afd19a4b5c69e78c2337eeb5e752bf3103640688b"
+  },
+  "id": "epYv3TctPl6jczmJ",
+  "tags": []
+}

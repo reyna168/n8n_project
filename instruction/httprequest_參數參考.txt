@@ -1,0 +1,18 @@
+groq註冊網址：https://groq.com/
+groq創建api：https://console.groq.com/keys
+groq進到冊發者playground：https://console.groq.com/playground
+
+httprequest節點設置參考：
+groq呼叫url
+https://api.groq.com/openai/v1/audio/transcriptions
+
+send header參數：
+Authorization=bearer 這裡中文字換成你取到的apikey，記得和前面的bearer要有空白喔！
+
+send body參數：
+file=data0
+model=whisper-large-v3
+prompt=用這個前置詞才有機會轉成繁體中文
+response_format=json或者verbose_json
+只有response_format值是設定verbose_json，下面參數才有效
+timestamp_granularities[]=word
